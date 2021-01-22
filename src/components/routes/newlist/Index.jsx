@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import XLSX from "xlsx";
-import { make_cols } from '../../js/listColumns';
-import { sendList } from '../../js/helpers';
+import { make_cols } from '../../../js/listColumns';
+import { sendList } from '../../../js/helpers';
+import LoadedList from './LoadedList'
 
-function Index() {
+function NewListIndex() {
 
     const SheetJSFT = [
         "xlsx", "xlsb", "xlsm", "xls", "xml", "csv", "txt", "ods", "fods", "uos", "sylk", "dif", "dbf", "prn", "qpw", "123", "wb*", "wq*", "html", "htm"
@@ -11,7 +12,7 @@ function Index() {
 
     const [state, setState] = useState({
         file: {},
-        data: { products: [] },
+        data: { products: [], res: {} },
         cols: [],
         loading: false,
         loaded: false,
@@ -28,7 +29,11 @@ function Index() {
             if (!duplicateCodes.length) {
                 sendList(state.data)
                     .then((res) => {
-                        console.log(res)
+                        setState({
+                            ...state,
+                            data: { products: [], res: res.data},
+                            loaded: true
+                        })
                     })
                     .catch((e) => {
                         console.log(e)
@@ -131,11 +136,11 @@ function Index() {
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
-                    {!state.loaded ? loader() : <div>Cargando</div>}
+                    {!state.loaded ? loader() : <LoadedList response={state.data.res}/>}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Index
+export default NewListIndex

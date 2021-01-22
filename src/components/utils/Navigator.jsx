@@ -11,7 +11,7 @@ function Navigator() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link className="nav-item nav-link" to="/">Home</Link>
+                        <Link className="nav-item nav-link" to="/">Inicio</Link>
                         <Link className="nav-item nav-link" to="/newlist">Cargar lista</Link>
                     </div>
                 </div>
