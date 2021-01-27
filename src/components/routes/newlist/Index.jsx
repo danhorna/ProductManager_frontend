@@ -133,7 +133,7 @@ function NewListIndex() {
     }
 
     return (
-        <div className="container">
+        <div className="container page-content">
             <div className="row">
                 <div className="col-md-12">
                     {!state.loaded ? loader() : <LoadedList response={state.data.res}/>}
