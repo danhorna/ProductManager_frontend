@@ -4,6 +4,7 @@ import Navigator from './components/utils/Navigator';
 
 import NewListIndex from './components/routes/newlist/Index';
 import HomeIndex from './components/routes/home/Index';
+import ProductIndex from './components/routes/product/Index';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Navigator />
         <Route path='/' component={HomeIndex} exact/>
         <Route path='/newlist' component={NewListIndex} />
+        <Route path='/product/:productid' component={ProductIndex}/>
       </Router>
     </React.Fragment>
   );

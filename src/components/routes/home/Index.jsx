@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ProductsTable from './ProductsTable'
 import { getAllProducts } from '../../../js/apicalls';
+import Loading from '../../utils/Loading';
 
 function HomeIndex() {
     const [state, setState] = useState({
@@ -21,16 +22,12 @@ function HomeIndex() {
         }
     })
 
-    function loading() {
-        return <p>Cargando</p>
-    }
-
     return (
-        <div className="page-content mt-4">
-            <div className="container">
-                <div className="row">
+        <div className="page-content mt-4 h-100">
+            <div className="container h-100">
+                <div className="row h-100">
                     <div className="col-12">
-                        {!state.loaded ? loading() : <ProductsTable list={state.data}/>}
+                        {!state.loaded ? <Loading type="spin" color="white"/> : <ProductsTable list={state.data}/>}
                     </div>
                 </div>
             </div>

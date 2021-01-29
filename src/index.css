@@ -85,3 +85,13 @@ body {
 .text-gray {
   color: #aaa;
 }
+
+html, body, #root{
+  height: 100%;
+}
+
+.centeritem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
