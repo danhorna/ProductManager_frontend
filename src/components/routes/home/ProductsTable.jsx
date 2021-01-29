@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -123,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ProductsTable({ list }) {
+function ProductsTable({list}) {
 
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
@@ -131,6 +132,7 @@ function ProductsTable({ list }) {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const history = useHistory();
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -138,8 +140,8 @@ function ProductsTable({ list }) {
         setOrderBy(property);
     };
 
-    const handleClick = (event, code) => {
-        console.log(code)
+    const handleClick = (event, productId) => {
+        history.push("/product/" + productId)
     };
 
     const handleChangePage = (event, newPage) => {
@@ -179,7 +181,7 @@ function ProductsTable({ list }) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.code)}
+                                            onClick={(event) => handleClick(event, row._id)}
                                             role="checkbox"
                                             tabIndex={-1}
                                             key={row.code}
