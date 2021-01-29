@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import XLSX from "xlsx";
 import { make_cols } from '../../../js/listColumns';
-import { sendList } from '../../../js/helpers';
+import { sendList } from '../../../js/apicalls';
 import LoadedList from './LoadedList'
 
 function NewListIndex() {

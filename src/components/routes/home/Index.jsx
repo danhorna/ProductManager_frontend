@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ProductsTable from './ProductsTable'
-import { getAllProducts } from '../../../js/helpers';
+import { getAllProducts } from '../../../js/apicalls';
 
 function HomeIndex() {
     const [state, setState] = useState({
@@ -13,7 +13,7 @@ function HomeIndex() {
             let products = await getAllProducts();
             setState({
                 loaded: true,
-                data: products.data
+                data: products
             })
         }
         if (!state.loaded) {
@@ -26,7 +26,7 @@ function HomeIndex() {
     }
 
     return (
-        <div className="page-content">
+        <div className="page-content mt-4">
             <div className="container">
                 <div className="row">
                     <div className="col-12">
