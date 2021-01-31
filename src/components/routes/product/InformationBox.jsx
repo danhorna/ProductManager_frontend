@@ -40,6 +40,7 @@ function InformationBox({ product }) {
                     Acá se puede agregar una descripcion al producto
               </Typography>
             </CardContent>
+            <hr className="m-0"/>
             <CardActions>
                 <p className="m-2">{product.code}</p>
                 <span className="ml-auto">

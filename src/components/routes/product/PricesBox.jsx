@@ -7,7 +7,7 @@ function PricesBox({ product, historical }) {
         return lastDate.toLocaleDateString()
     }
     return (
-        <div className="card mb-3" style={{ maxWidth: '450px' }}>
+        <div className="card mb-3 ml-auto" style={{ maxWidth: '450px' }}>
             <div className="card-header text-center">Precios</div>
             <div className="card-body">
                 <h5>Venta: <span className="text-primary">${(product.myPrice).toFixed(2)}</span></h5>

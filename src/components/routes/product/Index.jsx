@@ -4,7 +4,8 @@ import Loading from '../../utils/Loading';
 import { getProductById, getHistoricalByProductCode } from '../../../js/apicalls';
 import InformationBox from './InformationBox';
 import PricesBox from './PricesBox';
-import { orderHistoricalByDate } from '../../../js/helpers';
+import { orderHistoricalByDate, generateChartData } from '../../../js/helpers';
+import ChartBox from './ChartBox';
 
 function ProductIndex() {
 
@@ -17,13 +18,15 @@ function ProductIndex() {
 
     useEffect(() => {
         const fetchData = async () => {
-            let product = await getProductById(productid);
-            let historical = await getHistoricalByProductCode(product.code);
-            let historicalOrdered = orderHistoricalByDate(historical);
+            const product = await getProductById(productid);
+            const historical = await getHistoricalByProductCode(product.code);
+            const historicalOrdered = orderHistoricalByDate(historical);
+            const chartData = generateChartData(historicalOrdered);
             setState({
                 loading: false,
                 productData: product,
-                historical: historicalOrdered
+                historical: historicalOrdered,
+                chartData
             })
         }
         if (state.loading) {
@@ -40,6 +43,11 @@ function ProductIndex() {
                             <InformationBox product={state.productData} /></div>
                         <div className="col-md-6">
                             <PricesBox product={state.productData} historical={state.historical}/>
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col-md-12">
+                            <ChartBox chartData={state.chartData}/>
                         </div>
                     </div>
                 </div>
