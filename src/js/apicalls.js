@@ -8,8 +8,8 @@ export function sendList(list) {
 export async function getAllProducts() {
     let products = await axios.get('http://localhost:3000/api/products');
     const settings = await axios.get('http://localhost:3000/api/settings');
-    let productswithprices = products.data.map(product =>{
-        const priceWithIva = calcPercentage(product.price,settings.data.iva);
+    let productswithprices = products.data.map(product => {
+        const priceWithIva = calcPercentage(product.price, product.iva);
         const myPrice = calcPercentage(priceWithIva, settings.data.mypercentage);
         return {
             ...product,
@@ -21,9 +21,9 @@ export async function getAllProducts() {
 }
 
 export async function getProductById(productid) {
-    let {data} = await axios.get('http://localhost:3000/api/products/' + productid);
+    let { data } = await axios.get('http://localhost:3000/api/products/' + productid);
     const settings = await axios.get('http://localhost:3000/api/settings');
-    const priceWithIva = calcPercentage(data.price,settings.data.iva);
+    const priceWithIva = calcPercentage(data.price, data.iva);
     const myPrice = calcPercentage(priceWithIva, settings.data.mypercentage);
     const productwithprices = {
         ...data,
@@ -31,4 +31,9 @@ export async function getProductById(productid) {
         myPrice
     }
     return productwithprices
+}
+
+export async function getHistoricalByProductCode(productCode) {
+    let { data } = await axios.get('http://localhost:3000/api/historical/' + productCode);
+    return data
 }
