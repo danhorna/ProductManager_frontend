@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from '../../utils/Loading';
-import { getProductById, getHistoricalByProductCode } from '../../../js/apicalls';
+import { getProductById, getHistoricalByProductId } from '../../../js/apicalls';
 import InformationBox from './InformationBox';
 import PricesBox from './PricesBox';
 import { orderHistoricalByDate, generateChartData } from '../../../js/helpers';
@@ -19,7 +19,7 @@ function ProductIndex() {
     useEffect(() => {
         const fetchData = async () => {
             const product = await getProductById(productid);
-            const historical = await getHistoricalByProductCode(product.code);
+            const historical = await getHistoricalByProductId(productid);
             const historicalOrdered = orderHistoricalByDate(historical);
             const chartData = generateChartData(historicalOrdered);
             setState({

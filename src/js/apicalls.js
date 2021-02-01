@@ -33,7 +33,7 @@ export async function getProductById(productid) {
     return productwithprices
 }
 
-export async function getHistoricalByProductCode(productCode) {
-    let { data } = await axios.get('http://localhost:3000/api/historical/' + productCode);
+export async function getHistoricalByProductId(productId) {
+    let { data } = await axios.get('http://localhost:3000/api/historical/' + productId);
     return data
 }
