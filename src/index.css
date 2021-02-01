@@ -95,3 +95,7 @@ html, body, #root{
   align-items: center;
   justify-content: center;
 }
+
+.MuiTableRow-root {
+  cursor: pointer;
+}
