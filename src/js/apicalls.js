@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { calcPercentage } from './helpers';
 
-export function sendList(list) {
-    return axios.post('http://localhost:3000/api/products/newlist', list)
+export function sendList(list, listDate) {
+    return axios.post('http://localhost:3000/api/products/newlist', {products : list.products,listDate})
 }
 
 export async function getAllProducts() {
