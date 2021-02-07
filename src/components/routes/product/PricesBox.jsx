@@ -1,11 +1,6 @@
 import React from 'react';
 
-function PricesBox({ product, historical }) {
-
-    function getLastHistorical() {
-        const lastDate = new Date(historical.historicalPrices[0].date)
-        return lastDate.toLocaleDateString()
-    }
+function PricesBox({ product }) {
     return (
         <div className="card mb-3 ml-auto" style={{ maxWidth: '450px' }}>
             <div className="card-header text-center">Precios</div>
@@ -16,7 +11,7 @@ function PricesBox({ product, historical }) {
                 <h6>Proveedor + IVA({product.iva}%): <span className="text-primary">${(product.priceWithIva).toFixed(2)}</span></h6>
             </div>
             <div className="card-footer text-muted">
-                Ultima actualización: {getLastHistorical()}
+                Última actualización: {(new Date(product.lastUpdate).toLocaleDateString())}
             </div>
         </div>
     )

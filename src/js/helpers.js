@@ -2,20 +2,22 @@ export function calcPercentage(price, percentage) {
     return (((price * percentage) / 100) + price);
 }
 
-export function orderHistoricalByDate(historical) {
-    //older first
-    historical.historicalPrices.sort(function (a, b) {
-        return new Date(b.date) - new Date(a.date)
+export function orderHistoricalByDateLast(historical) {
+    //older last
+    let aux = historical.slice(0);
+    aux.sort(function (a, b) {
+        return new Date(a.date) - new Date(b.date)
     })
-    return historical
+    return aux
 }
 
 export function orderHistoricalByDateFirst(historical) {
-    //older last
-    historical.historicalPrices.sort(function (a, b) {
-        return new Date(a.date) - new Date(b.date)
+    //older first
+    let aux = historical.slice(0);
+    aux.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date)
     })
-    return historical
+    return aux
 }
 
 export function generateChartData(historical) {
@@ -23,8 +25,7 @@ export function generateChartData(historical) {
         labels: [],
         data: []
     };
-    let historicalFirst = orderHistoricalByDateFirst(historical);
-    historicalFirst.historicalPrices.forEach(obj => {
+    historical.forEach(obj => {
         let date = new Date(obj.date);
         let price = calcPercentage(obj.price, obj.iva);
         chartData.labels.push(date.toLocaleDateString());

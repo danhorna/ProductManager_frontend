@@ -4,7 +4,7 @@ import Loading from '../../utils/Loading';
 import { getProductById, getHistoricalByProductId } from '../../../js/apicalls';
 import InformationBox from './InformationBox';
 import PricesBox from './PricesBox';
-import { orderHistoricalByDate, generateChartData } from '../../../js/helpers';
+import { orderHistoricalByDateFirst, orderHistoricalByDateLast, generateChartData } from '../../../js/helpers';
 import ChartBox from './ChartBox';
 
 function ProductIndex() {
@@ -20,12 +20,13 @@ function ProductIndex() {
         const fetchData = async () => {
             const product = await getProductById(productid);
             const historical = await getHistoricalByProductId(productid);
-            const historicalOrdered = orderHistoricalByDate(historical);
-            const chartData = generateChartData(historicalOrdered);
+            const historicalOrderedFirst = orderHistoricalByDateFirst(historical.historicalPrices);
+            const historicalOrderedLast = orderHistoricalByDateLast(historical.historicalPrices);
+            const chartData = generateChartData(historicalOrderedLast);
             setState({
                 loading: false,
                 productData: product,
-                historical: historicalOrdered,
+                historical: historicalOrderedFirst,
                 chartData
             })
         }
@@ -42,7 +43,7 @@ function ProductIndex() {
                         <div className="col-md-6">
                             <InformationBox product={state.productData} /></div>
                         <div className="col-md-6">
-                            <PricesBox product={state.productData} historical={state.historical}/>
+                            <PricesBox product={state.productData}/>
                         </div>
                     </div>
                     <div className="row mt-3">

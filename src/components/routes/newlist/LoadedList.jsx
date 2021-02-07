@@ -12,20 +12,32 @@ function LoadedList({ response }) {
                         <span>{response.created}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Actualizados
-                        <span>{response.updated}</span>
+                        Precios actualizados
+                        <span>{response.priceUpdated}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Sin cambios
-                        <span>{response.withoutchanges}</span>
+                        Fechas actualizadas
+                        <span>{response.dateUpdated}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                        Errores al actualizar fechas
+                        <span>{response.dateUpdateErrors}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                        Historias agregadas
+                        <span>{response.historicalAdded}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                        Errores al crear historias
+                        <span>{response.historicalErrors}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
                         Errores al crear
                         <span>{response.creationErrors}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        Errores al actualizar
-                        <span>{response.updateErrors}</span>
+                        Errores al actualizar precios
+                        <span>{response.priceUpdateErrors}</span>
                     </li>
                 </ul>
             </div>

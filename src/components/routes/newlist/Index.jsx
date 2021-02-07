@@ -12,56 +12,36 @@ function NewListIndex() {
     ].map(function (x) { return "." + x; }).join(",");
 
     const [state, setState] = useState({
-        file: {},
         data: { products: [], res: {} },
         cols: [],
         loading: false,
         loaded: false,
         error: false,
+        fileError: false,
+        dateError: false,
         listDate: new Date()
     });
 
     useEffect(() => {
-        if (state.data.products.length) {
-            let duplicateCodes = state.data.products
-                .map(e => e.code)
-                .map((e, i, final) => final.indexOf(e) !== i && i)
-                .filter(obj => state.data.products[obj])
-                .map(e => state.data.products[e].code)
-            if (!duplicateCodes.length) {
-                sendList(state.data, state.listDate)
-                    .then((res) => {
-                        setState({
-                            ...state,
-                            data: { products: [], res: res.data },
-                            loaded: true
-                        })
+        if (state.loading) {
+            sendList(state.data, state.listDate)
+                .then((res) => {
+                    setState({
+                        ...state,
+                        data: { products: [], res: res.data },
+                        loaded: true,
+                        loading: false
                     })
-                    .catch((e) => {
-                        console.log(e)
-                    })
-            }
-            else {
-                console.log(duplicateCodes)
-                setState({
-                    ...state,
-                    error: true,
-                    loading: false,
-                    data: { products: [] }
                 })
-            }
+                .catch((e) => {
+                    console.log(e)
+                })
         }
+    })
 
-    }, [state])
-
-    function handleChange(e) {
-        e.target.value = null
-    }
-
-    function handleFile() {
-        console.log('que')
-        if (state.listDate && state.file.name) {
-            console.log('so')
+    function handleChange(ee) {
+        const files = ee.target.files;
+        if (files && files[0]) {
             /* Boilerplate to set up FileReader */
             const reader = new FileReader();
             const rABS = !!reader.readAsBinaryString;
@@ -78,29 +58,63 @@ function NewListIndex() {
                 const ws = wb.Sheets[wsname];
                 /* Convert array of arrays */
                 const data = XLSX.utils.sheet_to_json(ws);
-                /* Update state */
-                setState({
-                    ...state,
-                    loading: true,
-                    data: {
-                        products: data
-                    },
-                    cols: make_cols(ws["!ref"])
-                });
+                let duplicateCodes = data
+                    .map(e => e.code)
+                    .map((e, i, final) => final.indexOf(e) !== i && i)
+                    .filter(obj => data[obj])
+                    .map(e => data[e].code)
+                if (duplicateCodes.length) {
+                    ee.target.value = null;
+                    console.log(duplicateCodes);
+                    setState({
+                        ...state,
+                        error: true
+                    })
+                }
+                else {
+                    /* Update state */
+                    setState({
+                        ...state,
+                        fileError: false,
+                        error: false,
+                        data: {
+                            products: data
+                        },
+                        cols: make_cols(ws["!ref"])
+                    });
+                }
             };
 
             if (rABS) {
-                reader.readAsBinaryString(state.file);
+                reader.readAsBinaryString(files[0]);
             } else {
-                reader.readAsArrayBuffer(state.file);
+                reader.readAsArrayBuffer(files[0]);
             }
+        }
+    }
+
+    function handleFile() {
+        if (state.listDate && state.data.products.length) {
             setState({
                 ...state,
-                file: {}
+                loading: true,
+                fileError: false,
+                dateError: false
             })
         }
-        else{
-            console.log('qwe')
+        else {
+            if (!state.data.products.length) {
+                setState({
+                    ...state,
+                    fileError: true
+                })
+            }
+            else {
+                setState({
+                    ...state,
+                    dateError: true
+                })
+            }
         }
     }
 
@@ -138,7 +152,8 @@ function NewListIndex() {
                             <DatePicker
                                 onChange={(value) => setState({
                                     ...state,
-                                    listDate: value
+                                    listDate: value,
+                                    dateError: false
                                 })}
                                 value={state.listDate}
                                 format="dd/MM/y"
@@ -153,11 +168,18 @@ function NewListIndex() {
                         {state.loading ?
                             <div className="spinner-border text-dark" role="status"></div>
                             :
-                            <button type="submit" className="btn text-center btn-primary" onClick={handleFile}>
+                            <button type="submit" className="btn text-center btn-primary mb-2" onClick={handleFile}>
                                 Cargar
                             </button>
                         }
-
+                        {state.fileError ?
+                            <p className="text-danger mb-0"><small>*Error en el archivo</small></p>
+                            : ""
+                        }
+                        {state.dateError ?
+                            <p className="text-danger mb-0"><small>*Error en la fecha</small></p>
+                            : ""
+                        }
                     </div>
                 </div>
             </div>
