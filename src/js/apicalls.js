@@ -11,8 +11,14 @@ export async function getAllProducts() {
     let productswithprices = products.data.map(product => {
         const priceWithIva = calcPercentage(product.price, product.iva);
         const myPrice = calcPercentage(priceWithIva, settings.data.mypercentage);
+        const codePlus = {      //Usado para iconos en la tabla
+            code: product.code,
+            new: product.new,
+            priceUpdated: product.priceUpdated
+        }
         return {
             ...product,
+            codePlus,
             priceWithIva,
             myPrice
         }

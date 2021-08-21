@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGem, faFileInvoice } from '@fortawesome/free-solid-svg-icons'
 
 function ProductsTableTwo({ list }) {
-
     const history = useHistory();
-
     const columns = [
         {
             name: "_id",
@@ -16,10 +16,17 @@ function ProductsTableTwo({ list }) {
             }
         },
         {
-            name: "code",
+            name: "codePlus",
             label: "Código",
             options: {
                 sort: true,
+                customBodyRender: (data) => {
+                    return (
+                        <React.Fragment>
+                            {data.code} {data.new ? <FontAwesomeIcon icon={faGem} size="ls" color="#718BF5" /> : null} {data.priceUpdated ? <FontAwesomeIcon icon={faFileInvoice} size="ls" color="green" /> : null}
+                        </React.Fragment>
+                    )
+                }
             }
         },
         {
@@ -54,6 +61,13 @@ function ProductsTableTwo({ list }) {
                 sort: true,
                 searchable: false,
                 customBodyRender: data => "$" + data.toFixed(2)
+            }
+        },
+        {
+            name: "new",
+            options: {
+                display: false,
+                searchable: false
             }
         }
     ];
